@@ -5,12 +5,18 @@
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>V-for 案例</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <h1>v-for指令用法</h1>
     <hr>
     <div id="app">
+        <h1 v-if="false">asdfasdfasdfasdfa</h1>
         <ul>
             <li v-for="item in sortItems">
                 {{item}}
@@ -21,6 +27,99 @@
                 {{student.name}} - {{student.age}}
             </li>
         </ul>
+        <h1>v-model</h1>
+        <pre>
+            修饰符
+            .lazy：取代 imput 监听 change 事件,移出输入框之后数据变化。
+            .number：输入字符串转为数字。
+            .trim：输入去掉首尾空格。
+        </pre>
+        message:{{message}}
+        <p>v-model<input type="text" v-model="message"></p>
+        <p>lazy<input type="text" v-model.lazy="message" @change="show"></p>
+        <p>number<input type="text" v-model.number="message" type="number"></p>
+        <p>trim<input type="text" v-model.trim="message"></p>
+        <p>
+            tip: 1. 如果想自动将用户的输入值转为 Number 类型（如果原值的转换结果为 NaN 则返回原值），可以添加一个修饰符 number 给 v-model 来处理输入值,
+            这通常很有用，因为在 type="number" 时 HTML 中输入的值也总是会返回字符串类型。
+            2. 在默认情况下，v-model 在每次 input 事件触发后将输入框的值与数据进行同步。你可以添加 lazy 修饰符，从而转变为使用 change 事件进行同步。
+        </p>
+        <p>textarea<textarea cols="30" rows="10" v-model="message"></textarea></p>
+        <h3>多选按钮绑定一个值</h3>
+        <input type="checkbox" id="isTrue" v-model="isTrue">
+        <label for='isTrue'>{{isTrue}}</label>
+        <h3>多选绑定一个数组</h3>
+        <p>
+            <input type="checkbox" id="JSPang" value="JSPang" v-model="web_Names">
+            <label for="JSPang">JSPang</label><br />
+            <input type="checkbox" id="Panda" value="Panda" v-model="web_Names">
+            <label for="Panda">Panda</label><br />
+            <input type="checkbox" id="PanPan" value="PanPan" v-model="web_Names">
+            <label for="PanPan">PanPan</label>
+            <p>{{web_Names}}</p>
+        </p>
+        <h3>单选按钮绑定</h3>
+        <input type="radio" id="one" value="男" v-model="sex">
+        <label for="one">男</label>
+        <input type="radio" id="two" value="女" v-model="sex">
+        <label for="two">女</label>
+        <p>{{sex}}</p>
+        在工作中我们经常使用v-bind来绑定css样式：
+
+        在绑定CSS样式是，绑定的值必须在vue中的data属性中进行声明。
+
+        <p>1、直接绑定class样式 </p>
+
+        <p>:class="className"</p>
+
+        <p>2、绑定classA并进行判断，在isOK为true时显示样式，在isOk为false时不显示样式。 </p>
+
+        <p> :class="{classA:isOk}"</p>
+
+        <p>3、绑定class中的数组 </p>
+
+        <p>:class="[classA,classB]" </p>
+
+        <p> 4、绑定class中使用三元表达式判断 </p>
+
+        <p>:class="isOk?classA:classB" </p>
+
+        <p> 5、绑定style</p>
+
+        <p>:style="{color:red,fontSize:font}" </p>
+
+        <p>6、用对象绑定style样式 </p>
+
+        <p>:style="styleObject" </p>
+        <pre>
+            var app=new Vue({
+                el:'#app',
+                data:{
+                    styleObject:{
+                        fontSize:'24px',
+                        color:'green'
+                        }
+                    }
+            })
+        </pre>
+        <p>v-pre指令:在模板中跳过vue的编译，直接输出原始值。就是在标签中加入v-pre就不会输出vue中的data值了。</p>
+        <div v-pre>{{message}}</div>
+        <p>这时并不会输出我们的message值，而是直接在网页中显示 </p>
+
+        #v-cloak指令
+        在vue渲染完指定的整个DOM后才进行显示。它必须和CSS样式一起使用，
+        <div v-cloak>
+            {{ value }}
+        </div>
+        #v-once指令
+        在第一次DOM时进行渲染，渲染完成后视为静态内容，跳出以后的渲染过程。
+
+        <div v-once>第一次绑定的值：{{value}}</div>
+        <div><input type="text" v-model="value"></div>
+
+
+
+
     </div>
 
     <script type="text/javascript">
@@ -44,7 +143,13 @@
                         name: 'King',
                         age: 45
                     }
-                ]
+                ],
+                message: '',
+                isTrue: true,
+                web_Names: [],
+                sex: '',
+                hide: false,
+                value:'1111'
             },
             //注意：vue低版本中 data里面的items和computed里面可以一样，但是高版本，是不允许相同名称。
             computed: {
@@ -53,6 +158,11 @@
                 },
                 sortStudent: function () {
                     return sortByKey(this.students, 'age');
+                }
+            },
+            methods: {
+                show() {
+                    console.log(this.message)
                 }
             }
         });
