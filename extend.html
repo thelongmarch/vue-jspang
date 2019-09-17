@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>v-directive 自定义指令</title>
+</head>
+
+<body>
+    <h1>Vue.extend</h1>
+
+    Vue.extend 返回的是一个“扩展实例构造器”,也就是预设了部分选项的Vue实例构造器。<br />
+    经常服务于Vue.component用来生成组件，可以简单理解为当在模板中遇到该组件名称作为标签的自定义元素时，<br />
+    会自动调用“扩展实例构造器”来生产组件实例，并挂载到自定义元素上。<br />
+
+
+    <h1>自定义无参数标签</h1>
+    我们想象一个需求，需求是这样的，要在博客页面多处显示作者的网名，并在网名上直接有链接地址。<br />
+    我们希望在html中只需要写<author></author>，这和自定义组件很像，但是他没有传递任何参数，只是个静态标签。<br />
+    我们的Vue.extend该登场了，我们先用它来编写一个扩展实例构造器。代码如下：<br />
+
+
+    <hr>
+    <author></author>
+
+<script type="text/javascript">
+    var authorExtend = Vue.extend({
+        template: "<p><a :href='authorUrl'>{{authorName}}</a></p>",
+        data: function () {
+            return {
+                authorName: 'JSPang',
+                authorUrl: 'http://www.jspang.com'
+            }
+        }
+    });
+    new authorExtend().$mount('author');
+</script>
+
+</body>
+
+</html>
