@@ -17,25 +17,47 @@
 
     <h1>自定义无参数标签</h1>
     我们想象一个需求，需求是这样的，要在博客页面多处显示作者的网名，并在网名上直接有链接地址。<br />
-    我们希望在html中只需要写<author></author>，这和自定义组件很像，但是他没有传递任何参数，只是个静态标签。<br />
+    我们希望在html中只需要写<xmp>
+        <author></author>
+    </xmp>，这和自定义组件很像，但是他没有传递任何参数，只是个静态标签。<br />
     我们的Vue.extend该登场了，我们先用它来编写一个扩展实例构造器。代码如下：<br />
 
 
     <hr>
-    <author></author>
+    <p>tip: 每new一次只有第一个标签生效，其他的不生效！</p>
+    <p>1: <author></author>
+    </p>
+    <p>2: <author></author>
+    </p>
+
+    <p>3: <span class="ex"></span> </p>
+    <p>4: <span class="ex"></span> </p>
+    <p>5: <span id="ex"></span> </p>
+    <p>6: <span id="app"></span> </p>
+    <p>7: <span id="el"></span> </p>
 
     <script type="text/javascript">
-    var authorExtend = Vue.extend({
-        template: "<p><a :href='authorUrl'>{{authorName}}</a></p>",
-        data: function () {
-            return {
-                authorName: 'JSPang',
-                authorUrl: 'http://www.jspang.com'
+        var authorExtend = Vue.extend({
+            template: "<span><a :href='authorUrl'>{{authorName}}</a></span>",
+            data: function () {
+                return {
+                    authorName: 'JSPang',
+                    authorUrl: 'http://www.jspang.com'
+                }
             }
-        }
-    });
-    new authorExtend().$mount('author');
-</script>
+        });
+        //1.元素
+        new authorExtend().$mount('author');
+        //2.class
+        new authorExtend().$mount('.ex');
+        //3.id
+        new authorExtend().$mount('#ex');
+        //4.{}
+        new authorExtend({ el: '#app' });
+        // 或者，在文档之外渲染并且随后挂载
+        var component = new authorExtend().$mount()
+        document.getElementById('el').appendChild(component.$el)
+    </script>
 
 </body>
 
