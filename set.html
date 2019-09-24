@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue.set</title>
+</head>
+
+<body>
+    <h1>Vue.set</h1>
+    <p>Vue.set 的作用就是在构造器外部操作构造器内部的数据、属性或者方法。比如在vue构造器内部定义了一个count为1的数据，我们在构造器外部定义了一个方法，要每次点击按钮给值加1.就需要用到Vue.set。</p>
+
+    <p>一、引用构造器外部数据：</p>
+    <p>什么是外部数据，就是不在Vue构造器里里的data处声明，而是在构造器外部声明，然后在data处引用就可以了。</p>
+    <p>外部数据的加入让程序更加灵活，我们可以在外部获取任何想要的数据形式，然后让data引用。</p>
+
+
+        <p>{{count}}</p>
+        <button @click="add">add</button>
+
+    <script type="text/javascript">
+        //在构造器外部声明数据
+        var outData = {
+            count: 1,
+            goodName: 'car'
+        };
+        var app = new Vue({
+            el: '#app',
+            //引用外部数据
+            data: outData
+        });
+    </script>
+</body>
+
+</html>
